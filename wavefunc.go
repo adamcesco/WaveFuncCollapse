@@ -60,8 +60,8 @@ func main() {
 		MaxDomain: 10,
 		Corpus:    []wfcp2.CellElement{v1, v2, v3, v4, v5, v6},
 	}
-	board.EmptyBoard()
-	board.InsertAt(5, 5)
+	er := board.EmptyBoard()
+	fmt.Printf("Error: %v", er)
 }
 
 type CellWrap struct {

@@ -35,10 +35,38 @@ func (b *Board) EmptyBoard() error {
 	return nil
 }
 
+func conatins(arr []CellElement, ele CellElement) bool {
+	for _, element := range arr {
+		if ele.Data == element.Data {
+			return true
+		}
+	}
+	return false
+}
+
 func (b *Board) ValidateBoard() error {
+	corpusSize := len(b.Corpus)
+	if (b.MaxRange == 0) || (b.MaxDomain == 0 || corpusSize == 0) {
+		return errors.New("board has not been initialized correctly | corpus, domain, or range may not be initialized")
+	}
+
 	for i := 0; i < b.MaxRange; i++ {
 		for j := 0; j < b.MaxDomain; j++ {
+			if len(b.data[i][j]) == 1 {
+				for k := j; k < j+b.MaxDomain; k++ {
+					index := k % b.MaxDomain
+					if len(b.data[i][index]) == 1 && conatins(b.data[i][j], b.data[i][index][0]) {
+						return errors.New("board has is unvalidated | there is a misplaced cell")
+					}
+				}
 
+				for k := i; k < i+b.MaxRange; k++ {
+					index := k % b.MaxRange
+					if len(b.data[index][j]) == 1 && conatins(b.data[i][j], b.data[index][j][0]) {
+						return errors.New("board has is unvalidated | there is a misplaced cell")
+					}
+				}
+			}
 		}
 	}
 	return nil
