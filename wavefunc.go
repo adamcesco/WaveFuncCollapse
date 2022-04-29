@@ -7,8 +7,9 @@ import (
 
 func main() {
 	fmt.Println("Hello World")
+
 	v1 := wfcp2.CellElement{
-		RowExclusions: []wfcp2.CellElementer{CellWrap{Data: -1}},
+		RowExclusions: []wfcp2.CellElementer{CellWrap{Data: 1}},
 		ColExclusions: []wfcp2.CellElementer{CellWrap{Data: -1}},
 		Data: CellWrap{
 			Data: 1,
@@ -31,7 +32,7 @@ func main() {
 		},
 	}
 
-	v4 := wfcp2.CellElement{
+	vn1 := wfcp2.CellElement{
 		RowExclusions: []wfcp2.CellElementer{CellWrap{Data: 1}},
 		ColExclusions: []wfcp2.CellElementer{CellWrap{Data: -1}},
 		Data: CellWrap{
@@ -39,7 +40,7 @@ func main() {
 		},
 	}
 
-	v5 := wfcp2.CellElement{
+	vn2 := wfcp2.CellElement{
 		RowExclusions: []wfcp2.CellElementer{CellWrap{Data: 2}},
 		ColExclusions: []wfcp2.CellElementer{CellWrap{Data: -2}},
 		Data: CellWrap{
@@ -47,7 +48,7 @@ func main() {
 		},
 	}
 
-	v6 := wfcp2.CellElement{
+	vn3 := wfcp2.CellElement{
 		RowExclusions: []wfcp2.CellElementer{CellWrap{Data: 3}},
 		ColExclusions: []wfcp2.CellElementer{CellWrap{Data: -3}},
 		Data: CellWrap{
@@ -58,10 +59,20 @@ func main() {
 	board := wfcp2.Board{
 		MaxRange:  10,
 		MaxDomain: 10,
-		Corpus:    []wfcp2.CellElement{v1, v2, v3, v4, v5, v6},
+		Corpus:    []wfcp2.CellElement{v1, v2, v3, vn1, vn2, vn3},
 	}
-	er := board.EmptyBoard()
-	fmt.Printf("Error: %v", er)
+	board.EmptyBoard()
+	er := board.ValidateBoard()
+	fmt.Printf("Error 1: %v\n", er)
+
+	er = board.InsertAt(5, 5, v1)
+	fmt.Printf("Error 2: %v\n", er)
+
+	er = board.InsertAt(5, 4, vn1)
+	fmt.Printf("Error 3: %v\n", er)
+
+	er = board.ValidateBoard()
+	fmt.Printf("Error 4: %v\n", er)
 }
 
 type CellWrap struct {
