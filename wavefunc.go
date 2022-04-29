@@ -56,10 +56,12 @@ func main() {
 	}
 
 	board := wfcp2.Board{
-		Corpus: []wfcp2.CellElement{v1, v2, v3, v4, v5, v6},
+		MaxRange:  10,
+		MaxDomain: 10,
+		Corpus:    []wfcp2.CellElement{v1, v2, v3, v4, v5, v6},
 	}
-	board.EmptyBoard(10, 10)
-	board.Data[0][1] = v1
+	board.EmptyBoard()
+	board.InsertAt(5, 5)
 }
 
 type CellWrap struct {
