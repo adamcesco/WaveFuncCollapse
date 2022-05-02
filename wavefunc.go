@@ -6,8 +6,6 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello World")
-
 	v1 := wfcp2.CellElement{
 		RowExclusions: []wfcp2.CellElementer{CellWrap{Data: 1}},
 		ColExclusions: []wfcp2.CellElementer{CellWrap{Data: -1}},
@@ -73,6 +71,11 @@ func main() {
 
 	er = board.ValidateBoard()
 	fmt.Printf("Error 4: %v\n", er)
+
+	er = board.ValidateBoard()
+	fmt.Printf("Error 5: %v\n", er)
+
+	board.Print()
 }
 
 type CellWrap struct {
@@ -81,4 +84,8 @@ type CellWrap struct {
 
 func (i CellWrap) EqualFlags(p wfcp2.CellElementer) bool {
 	return i == p
+}
+
+func (i CellWrap) Print() {
+	fmt.Print(i.Data)
 }
