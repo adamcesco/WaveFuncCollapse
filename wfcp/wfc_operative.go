@@ -3,6 +3,8 @@ package wfcp
 import (
 	"errors"
 	"fmt"
+	"math/rand"
+	"time"
 )
 
 type CellElementer interface {
@@ -149,13 +151,28 @@ func (b *Board) InsertAt(x, y int, ele CellElement) error {
 func (b *Board) Print() {
 	for _, i2 := range b.data {
 		for _, j3 := range i2 {
-			//if len(j3) > 1 {
-			fmt.Print(len(j3), " ")
-			//} else {
-			//	j3[0].Data.Print()
-			//	fmt.Print(" ")
-			//}
+			if len(j3) > 1 {
+				fmt.Print(len(j3), "l ")
+			} else {
+				j3[0].Data.Print()
+			}
 		}
 		fmt.Println()
+	}
+}
+
+func (b *Board) Solve() {
+	rand.Seed(time.Now().UnixNano())
+	for y, i2 := range b.data {
+		for x, j3 := range i2 {
+			maxSize := len(j3)
+			if maxSize > 1 {
+				index := rand.Int() % maxSize
+				er := b.InsertAt(x, y, b.data[y][x][index])
+				for i := 0; er != nil; i++ {
+					er = b.InsertAt(x, y, b.data[y][x][(index+i)%maxSize])
+				}
+			}
+		}
 	}
 }
